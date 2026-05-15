@@ -3,11 +3,17 @@ import { motion } from 'motion/react';
 import confetti from 'canvas-confetti';
 import { words } from '../../data';
 import { Button } from '../ui/Button';
+import { Home as HomeIcon } from 'lucide-react';
+import type { ViewType } from '../../types';
 
 // Utility to shuffle arrays
 const shuffle = (array: any[]) => [...array].sort(() => Math.random() - 0.5);
 
-export function Matching() {
+interface MatchingProps {
+  setView: (view: ViewType) => void;
+}
+
+export function Matching({ setView }: MatchingProps) {
   const [level, setLevel] = useState(1);
   const [images, setImages] = useState<any[]>([]);
   const [options, setOptions] = useState<any[]>([]);
@@ -74,24 +80,31 @@ export function Matching() {
   const isLevelComplete = matchedPairs.length === images.length && images.length > 0;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
-      <div className="w-full flex justify-between items-center mb-8">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-purple-600">Match Game</h2>
-        <div className="bg-purple-100 text-purple-600 px-4 py-2 rounded-full font-bold text-lg">
+    <div className="max-w-5xl mx-auto px-4 py-8 relative">
+      <div className="w-full flex justify-between items-center mb-8 gap-4 flex-wrap">
+        <button
+          onClick={() => setView('home')}
+          className="flex items-center gap-2 bg-white text-slate-600 px-4 py-2 rounded-full font-bold hover:bg-slate-50 transition-colors shadow-sm ring-1 ring-slate-200 active:scale-95"
+        >
+          <HomeIcon className="w-5 h-5" />
+          <span>Back to Home</span>
+        </button>
+        <h2 className="text-3xl md:text-4xl font-extrabold text-purple-600 tracking-tight flex-1 text-center">Match Game</h2>
+        <div className="bg-purple-50 text-purple-600 px-4 py-2 rounded-full font-bold text-lg ring-1 ring-purple-100">
           Level {level}
         </div>
       </div>
 
       {isLevelComplete ? (
-        <div className="flex flex-col items-center justify-center min-h-[400px]">
+        <div className="flex flex-col items-center justify-center min-h-[400px] bg-white rounded-[3rem] shadow-xl shadow-gray-200/50 p-12 ring-4 ring-offset-4 ring-offset-[#F8FAFC] ring-purple-100">
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            className="text-8xl mb-8"
+            className="text-8xl mb-8 drop-shadow-sm"
           >
             🏆
           </motion.div>
-          <h3 className="text-4xl font-extrabold text-blue-600 mb-8">Great Job!</h3>
+          <h3 className="text-4xl font-extrabold text-blue-600 mb-8 tracking-tight">Great Job!</h3>
           <Button variant="primary" size="xl" onClick={() => setLevel(l => l + 1)}>
             Next Level 🌟
           </Button>
@@ -111,10 +124,10 @@ export function Matching() {
                   disabled={isMatched}
                   onClick={() => handleWordClick(item.word)}
                   className={`
-                    px-6 py-4 rounded-2xl text-2xl font-extrabold transition-all border-4 shadow-sm
-                    ${isMatched ? 'opacity-30 bg-gray-100 border-gray-200 cursor-not-allowed scale-95' 
-                      : isSelected ? 'bg-purple-100 border-purple-500 text-purple-700 scale-105 shadow-md' 
-                      : 'bg-white border-gray-200 text-gray-700 hover:border-purple-300 hover:bg-purple-50'}
+                    px-6 py-5 rounded-2xl text-2xl font-extrabold transition-all border shadow-sm
+                    ${isMatched ? 'opacity-30 bg-gray-50 border-gray-100 cursor-not-allowed scale-95' 
+                      : isSelected ? 'bg-purple-500 border-purple-600 text-white scale-105 shadow-md ring-4 ring-purple-200' 
+                      : 'bg-white border-gray-100 text-gray-700 hover:border-purple-300 hover:shadow-md'}
                   `}
                 >
                   {item.word}
@@ -139,11 +152,11 @@ export function Matching() {
                     animate={isWrong ? { x: [-10, 10, -10, 10, 0] } : {}}
                     transition={{ duration: 0.4 }}
                     className={`
-                      aspect-square flex items-center justify-center text-7xl bg-white border-4 rounded-3xl transition-all shadow-sm
-                      ${isMatched ? 'opacity-30 border-gray-200 cursor-not-allowed scale-95 bg-green-50' 
-                        : isWrong ? 'border-red-400 bg-red-50'
-                        : selectedWord ? 'border-blue-200 hover:border-blue-500 hover:shadow-md hover:scale-105 cursor-pointer bg-blue-50/30'
-                        : 'border-gray-200 opacity-80 cursor-not-allowed'}
+                      aspect-square flex items-center justify-center text-7xl bg-white border rounded-3xl transition-all shadow-sm
+                      ${isMatched ? 'opacity-30 border-gray-100 cursor-not-allowed scale-95 bg-green-50' 
+                        : isWrong ? 'border-red-300 bg-red-50 ring-4 ring-red-100'
+                        : selectedWord ? 'border-purple-200 hover:border-purple-500 hover:shadow-md hover:scale-105 cursor-pointer bg-purple-50/30'
+                        : 'border-gray-100 opacity-80 cursor-not-allowed hover:bg-gray-50'}
                     `}
                   >
                     {item.emoji}

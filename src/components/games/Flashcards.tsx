@@ -3,8 +3,14 @@ import { motion, AnimatePresence } from 'motion/react';
 import confetti from 'canvas-confetti';
 import { words } from '../../data';
 import { Button } from '../ui/Button';
+import { Home as HomeIcon } from 'lucide-react';
+import type { ViewType } from '../../types';
 
-export function Flashcards() {
+interface FlashcardsProps {
+  setView: (view: ViewType) => void;
+}
+
+export function Flashcards({ setView }: FlashcardsProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
 
@@ -43,9 +49,16 @@ export function Flashcards() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 flex flex-col items-center">
-      <div className="w-full flex justify-between items-center mb-8">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-green-600">Flashcards</h2>
-        <div className="bg-green-100 text-green-600 px-4 py-2 rounded-full font-bold text-lg">
+      <div className="w-full flex justify-between items-center mb-8 gap-4 flex-wrap">
+        <button
+          onClick={() => setView('home')}
+          className="flex items-center gap-2 bg-white text-slate-600 px-4 py-2 rounded-full font-bold hover:bg-slate-50 transition-colors shadow-sm ring-1 ring-slate-200 active:scale-95"
+        >
+          <HomeIcon className="w-5 h-5" />
+          <span>Back to Home</span>
+        </button>
+        <h2 className="text-3xl md:text-4xl font-extrabold text-green-600 tracking-tight flex-1 text-center">Flashcards</h2>
+        <div className="bg-green-50 text-green-600 px-4 py-2 rounded-full font-bold text-lg ring-1 ring-green-100">
           {currentIndex + 1} / {shuffledWords.length}
         </div>
       </div>
@@ -59,8 +72,8 @@ export function Flashcards() {
             exit={{ rotateY: isFlipped ? 90 : -90, opacity: 0 }}
             transition={{ duration: 0.3 }}
             onClick={handleFlip}
-            className={`absolute inset-0 w-full h-full rounded-[3rem] p-8 shadow-2xl flex flex-col items-center justify-center cursor-pointer border-8 ${
-              isFlipped ? 'bg-green-50 border-green-300' : 'bg-white border-blue-200'
+            className={`absolute inset-0 w-full h-full rounded-[3rem] p-8 shadow-xl shadow-gray-200/50 flex flex-col items-center justify-center cursor-pointer transition-all hover:scale-[1.02] ring-4 ring-offset-4 ring-offset-[#F8FAFC] ${
+              isFlipped ? 'bg-green-50 ring-green-100' : 'bg-white ring-blue-100'
             }`}
           >
             {!isFlipped ? (
@@ -72,7 +85,7 @@ export function Flashcards() {
                 <div className="text-[80px] leading-none mb-8 opacity-50">
                   {current.emoji}
                 </div>
-                <div className="text-6xl font-extrabold text-green-600 uppercase tracking-wider">
+                <div className="text-6xl font-extrabold text-green-600 uppercase tracking-wider text-center">
                   {current.word}
                 </div>
               </>
@@ -93,7 +106,7 @@ export function Flashcards() {
         )}
       </div>
       
-      <p className="mt-8 text-xl text-gray-500 font-medium text-center">
+      <p className="mt-8 text-xl text-gray-400 font-medium text-center">
         What is this? Click the card to reveal the answer!
       </p>
     </div>
