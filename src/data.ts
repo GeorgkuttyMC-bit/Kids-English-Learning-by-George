@@ -1,0 +1,43 @@
+export const alphabet = [
+  { letter: "A", word: "Apple", emoji: "🍎" },
+  { letter: "B", word: "Bear", emoji: "🐻" },
+  { letter: "C", word: "Cat", emoji: "🐱" },
+  { letter: "D", word: "Dog", emoji: "🐶" },
+  { letter: "E", word: "Elephant", emoji: "🐘" },
+  { letter: "F", word: "Frog", emoji: "🐸" },
+  { letter: "G", word: "Giraffe", emoji: "🦒" },
+  { letter: "H", word: "Horse", emoji: "🐴" },
+  { letter: "I", word: "Ice Cream", emoji: "🍦" },
+  { letter: "J", word: "Juice", emoji: "🧃" },
+  { letter: "K", word: "Kangaroo", emoji: "🦘" },
+  { letter: "L", word: "Lion", emoji: "🦁" },
+  { letter: "M", word: "Monkey", emoji: "🐵" },
+  { letter: "N", word: "Nut", emoji: "🥜" },
+  { letter: "O", word: "Owl", emoji: "🦉" },
+  { letter: "P", word: "Pig", emoji: "🐷" },
+  { letter: "Q", word: "Queen", emoji: "👑" },
+  { letter: "R", word: "Rabbit", emoji: "🐰" },
+  { letter: "S", word: "Sun", emoji: "☀️" },
+  { letter: "T", word: "Turtle", emoji: "🐢" },
+  { letter: "U", word: "Umbrella", emoji: "☔" },
+  { letter: "V", word: "Volcano", emoji: "🌋" },
+  { letter: "W", word: "Whale", emoji: "🐳" },
+  { letter: "X", word: "Xylophone", emoji: "🎹" }, // Note: no xylophone emoji, using keyboard as placeholder
+  { letter: "Y", word: "Yo-yo", emoji: "🪀" },
+  { letter: "Z", word: "Zebra", emoji: "🦓" }
+];
+
+export const words = [
+  { word: "Cat", emoji: "🐱" },
+  { word: "Dog", emoji: "🐶" },
+  { word: "Car", emoji: "🚗" },
+  { word: "Sun", emoji: "☀️" },
+  { word: "Star", emoji: "⭐" },
+  { word: "Tree", emoji: "🌳" },
+  { word: "Book", emoji: "📖" },
+  { word: "Apple", emoji: "🍎" },
+  { word: "House", emoji: "🏠" },
+  { word: "Ball", emoji: "⚽" },
+  { word: "Fish", emoji: "🐟" },
+  { word: "Bird", emoji: "🐦" },
+];
