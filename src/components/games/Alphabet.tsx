@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import confetti from 'canvas-confetti';
 import { alphabet } from '../../data';
@@ -11,7 +11,82 @@ interface AlphabetProps {
 
 export function Alphabet({ setView }: AlphabetProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
   const current = alphabet[currentIndex];
+
+  useEffect(() => {
+    // Stop any speech and reset playing state when letter changes
+    window.speechSynthesis.cancel();
+    setIsPlaying(false);
+    return () => {
+      window.speechSynthesis.cancel();
+    };
+  }, [currentIndex]);
+
+  useEffect(() => {
+    // If the component unmounts, cancel speech
+    return () => {
+      window.speechSynthesis.cancel();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isPlaying) return;
+
+    let isCurrentLetter = true;
+
+    const loopSpeech = () => {
+      if (!isCurrentLetter) return;
+
+      const spellOut = current.word.toUpperCase().split('').join('. ');
+      // Repeating part: Just spell it out
+      const text = `Let's spell it again. ${spellOut}. ${current.word}.`;
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.7;
+      
+      utterance.onend = () => {
+        if (isCurrentLetter) {
+          setTimeout(() => {
+            if (isCurrentLetter) {
+              loopSpeech();
+            }
+          }, 1500); // Pause for 1.5s before repeating
+        }
+      };
+      
+      window.speechSynthesis.speak(utterance);
+    };
+
+    const startSpeech = () => {
+      const spellOut = current.word.toUpperCase().split('').join('. ');
+      const text = `${current.letter} is for ${current.word}. Let's spell it. ${spellOut}. ${current.word}.`;
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.7;
+      
+      utterance.onend = () => {
+        if (isCurrentLetter) {
+          setTimeout(() => {
+            if (isCurrentLetter) {
+              loopSpeech();
+            }
+          }, 1500);
+        }
+      };
+      
+      window.speechSynthesis.speak(utterance);
+    };
+
+    startSpeech();
+
+    return () => {
+      isCurrentLetter = false;
+      window.speechSynthesis.cancel();
+    };
+  }, [isPlaying, current]);
 
   const handleNext = () => {
     if (currentIndex < alphabet.length - 1) {
@@ -38,16 +113,10 @@ export function Alphabet({ setView }: AlphabetProps) {
   };
 
   const playSound = () => {
-    window.speechSynthesis.cancel();
-
-    const spellOut = current.word.toUpperCase().split('').join('. ');
-    const text = `${current.letter} is for ${current.word}. Let's spell it. ${spellOut}. ${current.word}.`;
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-US';
-    utterance.rate = 0.7; // Slower for kids
-    window.speechSynthesis.speak(utterance);
-    triggerConfetti();
+    if (!isPlaying) {
+      setIsPlaying(true);
+      triggerConfetti();
+    }
   };
 
   return (
