@@ -38,13 +38,13 @@ export function Alphabet({ setView }: AlphabetProps) {
     const loopSpeech = () => {
       if (!isCurrentLetter) return;
 
-      const spellOut = current.word.toUpperCase().split('').join('. ');
+      const spellOut = current.word.toUpperCase().split('').join('. . ');
       // Repeating part: Just spell it out
-      const text = `Let's spell it again. ${spellOut}. ${current.word}.`;
+      const text = `Let's spell it again. . ${spellOut}. . ${current.word}.`;
 
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'en-US';
-      utterance.rate = 0.7;
+      utterance.rate = 0.3;
       
       utterance.onend = () => {
         if (isCurrentLetter) {
@@ -60,12 +60,12 @@ export function Alphabet({ setView }: AlphabetProps) {
     };
 
     const startSpeech = () => {
-      const spellOut = current.word.toUpperCase().split('').join('. ');
-      const text = `${current.letter} is for ${current.word}. Let's spell it. ${spellOut}. ${current.word}.`;
+      const spellOut = current.word.toUpperCase().split('').join('. . ');
+      const text = `${current.letter} is for ${current.word}. . Let's spell it. . ${spellOut}. . ${current.word}.`;
 
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'en-US';
-      utterance.rate = 0.7;
+      utterance.rate = 0.3;
       
       utterance.onend = () => {
         if (isCurrentLetter) {

@@ -39,9 +39,11 @@ export function Matching({ setView }: MatchingProps) {
     if (matchedPairs.includes(word)) return;
     setSelectedWord(word);
     
+    window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(word);
     utterance.lang = 'en-US';
-    speechSynthesis.speak(utterance);
+    utterance.rate = 0.3; // Much slower for kids
+    window.speechSynthesis.speak(utterance);
   };
 
   const handleImageClick = (word: string) => {

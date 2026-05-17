@@ -41,10 +41,11 @@ export function Flashcards({ setView }: FlashcardsProps) {
   };
 
   const playSound = (text: string) => {
+    window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-US';
-    utterance.rate = 0.9;
-    speechSynthesis.speak(utterance);
+    utterance.rate = 0.3; // Much slower for kids
+    window.speechSynthesis.speak(utterance);
   };
 
   return (
