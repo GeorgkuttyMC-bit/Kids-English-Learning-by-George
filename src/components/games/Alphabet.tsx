@@ -37,11 +37,16 @@ export function Alphabet({ setView }: AlphabetProps) {
     });
   };
 
-  const playSound = (text: string) => {
+  const playSound = () => {
+    window.speechSynthesis.cancel();
+
+    const spellOut = current.word.toUpperCase().split('').join('. ');
+    const text = `${current.letter} is for ${current.word}. Let's spell it. ${spellOut}. ${current.word}.`;
+
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-US';
-    utterance.rate = 0.8; // Slower for kids
-    speechSynthesis.speak(utterance);
+    utterance.rate = 0.7; // Slower for kids
+    window.speechSynthesis.speak(utterance);
     triggerConfetti();
   };
 
@@ -78,7 +83,7 @@ export function Alphabet({ setView }: AlphabetProps) {
             exit={{ opacity: 0, scale: 0.5, rotate: 10 }}
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
             className="bg-white ring-4 ring-pink-100 ring-offset-4 ring-offset-[#F8FAFC] rounded-[3rem] p-12 shadow-xl shadow-gray-200/50 flex flex-col items-center max-w-sm w-full mx-16 text-center cursor-pointer hover:scale-[1.02] transition-transform"
-            onClick={() => playSound(`${current.letter} is for ${current.word}`)}
+            onClick={playSound}
           >
             <div className="text-[120px] leading-none mb-6 font-extrabold text-pink-500 drop-shadow-sm">
               {current.letter}
