@@ -42,7 +42,7 @@ export function Matching({ setView }: MatchingProps) {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(word);
     utterance.lang = 'en-US';
-    utterance.rate = 0.3; // Much slower for kids
+    utterance.rate = 0.9; // Normal speed
     window.speechSynthesis.speak(utterance);
   };
 
